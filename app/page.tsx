@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const TICKER = ["KIRIM PESAN", "TERIMA WEBHOOK", "MULTI NOMOR", "TANPA AUTO-REPLY", "QR PAIRING", "API DOCS"];
+const TICKER = ["KIRIM PESAN", "TERIMA WEBHOOK", "TANPA AUTO-REPLY", "QR PAIRING", "API DOCS"];
 
 export default function Home() {
   return (
