@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 const ROWS: [string, string, string][] = [
   ["POST", "/api/v1/auth/register", "Bikin akun {email, password}"],
@@ -20,40 +18,55 @@ const ROWS: [string, string, string][] = [
   ["POST", "/api/v1/instances/{id}/users/register", "Daftarkan pengirim {phone}"],
 ];
 
+const METHOD_STYLE: Record<string, string> = {
+  GET: "bg-sky-300",
+  POST: "bg-violet-500 text-white",
+  DELETE: "bg-red-400 text-white",
+};
+
 export default function Docs() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-amber-50 to-white text-slate-800">
+    <main className="min-h-screen bg-[#FFF6E9] text-slate-900">
       <div className="max-w-3xl mx-auto px-4 py-10">
         <p className="mb-4">
-          <Link href="/" className="text-sm text-slate-400 hover:text-emerald-600">← Home</Link>
+          <Link href="/" className="font-display text-sm text-slate-500 hover:text-slate-900">
+            ← Wagaza<span className="text-fuchsia-600">*</span>
+          </Link>
         </p>
-        <h1 className="text-3xl font-extrabold mb-2">📖 API docs</h1>
-        <p className="text-sm text-slate-500 mb-6">
+        <h1 className="font-display font-bold text-4xl sm:text-5xl mb-2">
+          📖 API <span className="bg-amber-300 px-3 rounded-2xl inline-block rotate-1 border-2 border-slate-900 shadow-[4px_4px_0_#1e1b4b]">docs</span>
+        </h1>
+        <p className="text-sm text-slate-500 mb-6 max-w-xl">
           Di website ini pakai cookie session. Kalau panggil gateway langsung,
-          pakai header <code className="font-mono bg-amber-100 rounded px-1">Authorization: Bearer</code> (master atau scoped key).
+          pakai header <code className="font-mono bg-white border border-slate-300 rounded px-1">Authorization: Bearer</code> (master
+          atau scoped key).
         </p>
-        <Card className="rounded-3xl border-2">
-          <CardContent className="p-2">
-            {ROWS.map(([m, p, d]) => (
-              <div key={p} className="py-2.5 px-3 border-b last:border-0 text-sm">
-                <Badge className="mr-2 rounded-full font-mono">{m}</Badge>
-                <code className="font-mono break-all">{p}</code>
-                <p className="text-slate-500 mt-0.5 ml-1">{d}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-        <Card className="rounded-3xl border-2 border-emerald-200 bg-emerald-50/60 mt-4">
-          <CardHeader><CardTitle>🔔 Kontrak webhook</CardTitle></CardHeader>
-          <CardContent className="text-sm text-slate-600 space-y-1">
-            <p>• Maksimal 3x kirim (langsung, +2s, +10s); sukses = HTTP 2xx.</p>
-            <p>• Dedupe pakai <code className="font-mono">(instance, message_id)</code>.</p>
-            <p>• Ditandatangani <code className="font-mono">x-wagaza-signature</code> (HMAC-SHA256) kalau dikonfigurasi.</p>
-          </CardContent>
-        </Card>
-        <p className="text-xs text-slate-400 mt-4">
-          * HP utama wajib online minimal sekali per ~14 hari (aturan WhatsApp:
-          kalau tidak, semua linked device termasuk gateway ikut logout).
+        <div className="space-y-2.5">
+          {ROWS.map(([m, p, d]) => (
+            <div
+              key={p}
+              className="bg-white border-2 border-slate-900 rounded-2xl px-4 py-3 shadow-[4px_4px_0_#1e1b4b] hover:-translate-y-0.5 transition-transform"
+            >
+              <span
+                className={`inline-block font-mono text-xs font-bold rounded-full px-2.5 py-0.5 mr-2 border border-slate-900 ${METHOD_STYLE[m] || "bg-slate-200"}`}
+              >
+                {m}
+              </span>
+              <code className="font-mono text-sm break-all">{p}</code>
+              <p className="text-sm text-slate-500 mt-1 ml-1">{d}</p>
+            </div>
+          ))}
+        </div>
+        <div className="bg-slate-900 text-white border-2 border-slate-900 rounded-2xl p-5 mt-6 shadow-[6px_6px_0_#c026d3]">
+          <h2 className="font-display font-semibold text-xl mb-2">🔔 Kontrak webhook</h2>
+          <ul className="text-sm text-slate-300 space-y-1">
+            <li>• Maksimal 3x kirim (langsung, +2s, +10s); sukses = HTTP 2xx.</li>
+            <li>• Dedupe pakai <code className="font-mono text-amber-300">(instance, message_id)</code>.</li>
+            <li>• Ditandatangani <code className="font-mono text-amber-300">x-wagaza-signature</code> (HMAC-SHA256) kalau dikonfigurasi.</li>
+          </ul>
+        </div>
+        <p className="font-hand text-2xl text-slate-400 text-center mt-8">
+          selamat ngoprek~ ☕
         </p>
       </div>
     </main>
