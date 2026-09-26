@@ -13,13 +13,13 @@ export default function Home() {
         <div className="ml-auto flex gap-2">
           <Link
             href="/login"
-            className="px-4 py-2 text-sm font-semibold border-2 border-slate-900 rounded-full bg-white hover:bg-amber-200 transition-colors"
+            className="font-display px-4 py-2 text-base font-semibold border-2 border-slate-900 rounded-full bg-white hover:bg-amber-200 transition-colors"
           >
             Masuk
           </Link>
           <Link
             href="/docs"
-            className="px-4 py-2 text-sm font-semibold hover:underline underline-offset-4"
+            className="font-display px-4 py-2 text-base font-semibold hover:underline underline-offset-4"
           >
             Docs
           </Link>
