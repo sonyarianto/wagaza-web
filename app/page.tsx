@@ -29,7 +29,7 @@ export default function Home() {
       {/* hero */}
       <section className="max-w-5xl mx-auto px-4 pt-12 pb-10 text-center relative">
         <span className="font-hand text-2xl text-fuchsia-600 -rotate-3 inline-block mb-2">
-          halo, ini gateway WhatsApp yang santai~ 👋
+          halo, ini gateway WhatsApp yang zantai~ 👋
         </span>
         <h1 className="font-display font-bold leading-[0.95] tracking-tight text-6xl sm:text-8xl">
           SATU SERVER,
