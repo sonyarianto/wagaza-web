@@ -8,7 +8,7 @@ export default function Home() {
       {/* nav */}
       <nav className="max-w-5xl mx-auto px-4 pt-5 flex items-center gap-2">
         <span className="font-display font-bold text-2xl tracking-tight">
-          wagaza<span className="text-fuchsia-600">*</span>
+          Wagaza<span className="text-fuchsia-600">*</span>
         </span>
         <div className="ml-auto flex gap-2">
           <Link
@@ -121,7 +121,7 @@ export default function Home() {
       </section>
 
       <footer className="border-t-2 border-slate-900 py-5 text-center text-sm text-slate-500">
-        wagaza<span className="text-fuchsia-600">*</span> — gateway WhatsApp tanpa drama ·{" "}
+        Wagaza<span className="text-fuchsia-600">*</span> — gateway WhatsApp yang zantai~ ·{" "}
         <Link href="/docs" className="underline underline-offset-4 hover:text-slate-800">
           docs
         </Link>
