@@ -1,41 +1,52 @@
 import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-emerald-500 flex items-center justify-center text-3xl mx-auto mb-5">
+    <main className="min-h-screen bg-gradient-to-b from-emerald-50 via-amber-50 to-white text-slate-800">
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        <Badge className="mb-4 bg-amber-300 text-amber-950 hover:bg-amber-300 rounded-full px-4 py-1">
+          ✨ WhatsApp gateway yang santai
+        </Badge>
+        <div className="w-16 h-16 rounded-3xl bg-emerald-500 flex items-center justify-center text-4xl mx-auto mb-5 shadow-lg shadow-emerald-200 rotate-3">
           💬
         </div>
-        <h1 className="text-4xl font-bold mb-3">Waga</h1>
-        <p className="text-slate-400 mb-8">
-          Silent WhatsApp gateway for your business number.
+        <h1 className="text-5xl font-extrabold mb-3 tracking-tight">
+          Wa<span className="text-emerald-600">ga</span>
+        </h1>
+        <p className="text-slate-500 mb-8 text-lg">
+          Silent WhatsApp gateway buat nomormu.
           <br />
-          Inbound logged and forwarded — no spammy auto-replies.
+          Pesan masuk tercatat &amp; diteruskan — tanpa auto-reply berisik.
         </p>
         <div className="flex gap-3 justify-center mb-12">
-          <Link href="/register" className="bg-emerald-600 hover:bg-emerald-500 rounded-lg px-6 py-2.5 font-medium">
-            Register
+          <Link href="/register"
+            className="inline-flex items-center justify-center gap-2 rounded-full px-8 h-11 text-base font-medium bg-emerald-600 text-white shadow-md shadow-emerald-200 hover:bg-emerald-500">
+            Daftar gratis
           </Link>
-          <Link href="/login" className="border border-slate-700 hover:border-slate-500 rounded-lg px-6 py-2.5">
-            Login
+          <Link href="/login"
+            className="inline-flex items-center justify-center gap-2 rounded-full px-8 h-11 text-base font-medium border border-slate-300 bg-white hover:border-emerald-400">
+            Masuk
           </Link>
         </div>
         <div className="grid grid-cols-3 gap-3 text-left">
           {[
-            ["1", "Register your number and get approved."],
-            ["2", "Scan the pairing QR from WhatsApp."],
-            ["3", "Receive webhooks, reply via API."],
-          ].map(([n, t]) => (
-            <div key={n} className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-              <div className="text-emerald-400 font-bold mb-1">{n}</div>
-              <p className="text-sm text-slate-300">{t}</p>
-            </div>
+            ["📝", "Daftarkan nomormu dan tunggu approve sebentar."],
+            ["📱", "Scan QR pairing dari WhatsApp kamu."],
+            ["🚀", "Terima webhook, balas via API. Gampang!"],
+          ].map(([emoji, t]) => (
+            <Card key={t} className="rounded-3xl border-2 shadow-sm">
+              <CardContent className="p-4">
+                <div className="text-2xl mb-2">{emoji}</div>
+                <p className="text-sm text-slate-600">{t}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
         <p className="mt-10">
-          <Link href="/docs" className="text-sm text-slate-500 hover:text-slate-300">
-            API docs →
+          <Link href="/docs" className="text-sm text-slate-400 hover:text-emerald-600">
+            📖 API docs →
           </Link>
         </p>
       </div>

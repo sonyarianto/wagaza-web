@@ -2,6 +2,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 
 type Instance = { id: string; connected: boolean; logged_in: boolean; has_qr: boolean };
 
@@ -43,7 +47,7 @@ export default function Dashboard() {
         body: JSON.stringify({ phone }),
       });
       setPhone("");
-      setMsg("Request submitted — wait for operator approval, then open the instance to pair.");
+      setMsg("✅ Terkirim! Tunggu approve, terus buka nomornya buat pairing. 🎉");
     } catch (e) {
       setMsg(e instanceof Error ? e.message : "failed");
     }
@@ -55,45 +59,50 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-slate-800">
       <div className="max-w-3xl mx-auto px-4 py-8">
         <header className="flex items-center gap-3 mb-6">
-          <h1 className="text-xl font-bold">My numbers</h1>
-          <button onClick={logout} className="ml-auto text-sm text-slate-400 hover:text-white">
-            Logout
-          </button>
+          <div className="w-10 h-10 rounded-2xl bg-emerald-500 flex items-center justify-center text-xl -rotate-3">💬</div>
+          <h1 className="text-2xl font-extrabold">Nomorku</h1>
+          <Button variant="ghost" size="sm" onClick={logout} className="ml-auto rounded-full">
+            Keluar
+          </Button>
         </header>
 
-        <form onSubmit={registerNumber} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 mb-4">
-          <h2 className="font-semibold mb-2">Register a WhatsApp number</h2>
-          <div className="flex gap-2">
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. 62812xxxxxxx"
-              className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-emerald-500" />
-            <button className="bg-emerald-600 hover:bg-emerald-500 rounded-lg px-4 py-2 text-sm font-medium">
-              Register
-            </button>
-          </div>
-          {msg && <p className="text-sm text-slate-400 mt-2">{msg}</p>}
-        </form>
+        <Card className="rounded-3xl border-2 mb-4">
+          <CardHeader>
+            <CardTitle>📲 Daftarkan nomor WhatsApp</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={registerNumber} className="flex gap-2">
+              <Input value={phone} onChange={(e) => setPhone(e.target.value)}
+                placeholder="cth. 62812xxxxxxx" className="rounded-xl" />
+              <Button className="rounded-full shrink-0">Daftar</Button>
+            </form>
+            {msg && <p className="text-sm text-slate-500 mt-2">{msg}</p>}
+          </CardContent>
+        </Card>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-          {instances.length === 0 && (
-            <p className="text-sm text-slate-500">No instances yet. Register a number above.</p>
-          )}
-          {instances.map((i) => (
-            <Link key={i.id} href={`/dashboard/${i.id}`}
-              className="flex items-center gap-3 py-3 border-b border-slate-800 last:border-0 hover:bg-slate-800/50 rounded px-2">
-              <span className="font-mono font-medium">{i.id}</span>
-              <span className={`text-xs px-2.5 py-0.5 rounded-full ${i.logged_in ? "bg-emerald-900 text-emerald-300" : "bg-red-950 text-red-300"}`}>
-                {i.logged_in ? "paired" : "not paired"}
-              </span>
-              <span className="ml-auto text-slate-500">→</span>
-            </Link>
-          ))}
-        </div>
+        <Card className="rounded-3xl border-2">
+          <CardContent className="p-2">
+            {instances.length === 0 && (
+              <p className="text-sm text-slate-400 p-4">Belum ada nomor. Daftarkan satu di atas yuk! 👆</p>
+            )}
+            {instances.map((i) => (
+              <Link key={i.id} href={`/dashboard/${i.id}`}
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-emerald-50">
+                <span className="font-mono font-medium">{i.id}</span>
+                <Badge variant={i.logged_in ? "default" : "secondary"} className="rounded-full">
+                  {i.logged_in ? "✅ paired" : "⏳ belum pair"}
+                </Badge>
+                <span className="ml-auto text-slate-300">→</span>
+              </Link>
+            ))}
+          </CardContent>
+        </Card>
 
         <p className="mt-6 text-center">
-          <Link href="/docs" className="text-sm text-slate-500 hover:text-slate-300">API docs →</Link>
+          <Link href="/docs" className="text-sm text-slate-400 hover:text-emerald-600">📖 API docs →</Link>
         </p>
       </div>
     </main>

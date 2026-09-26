@@ -2,6 +2,11 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 
 type Status = { id: string; connected: boolean; logged_in: boolean; has_qr: boolean; uptime_secs: number };
 type Msg = {
@@ -62,7 +67,7 @@ export default function InstanceDetail() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ to, text }),
       });
-      setOut(`Sent: ${r.message_id}`);
+      setOut(`✅ Terkirim: ${r.message_id}`);
       setText("");
     } catch (e) {
       setOut(e instanceof Error ? e.message : "send failed");
@@ -77,74 +82,96 @@ export default function InstanceDetail() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: webhook || null }),
       });
-      setOut("Webhook saved.");
+      setOut("✅ Webhook tersimpan.");
     } catch (e) {
       setOut(e instanceof Error ? e.message : "failed");
     }
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-slate-800">
       <div className="max-w-3xl mx-auto px-4 py-8">
         <p className="mb-4">
-          <Link href="/dashboard" className="text-sm text-slate-400 hover:text-white">← My numbers</Link>
+          <Link href="/dashboard" className="text-sm text-slate-400 hover:text-emerald-600">← Nomorku</Link>
         </p>
-        <h1 className="text-xl font-bold font-mono mb-1">{id}</h1>
-        <p className="text-sm text-slate-400 mb-6">
-          {status
-            ? `${status.logged_in ? "paired" : "not paired"} · ${status.connected ? "connected" : "offline"}`
-            : "loading…"}
-        </p>
+        <div className="flex items-center gap-2 mb-6">
+          <h1 className="text-2xl font-extrabold font-mono">{id}</h1>
+          {status && (
+            <Badge variant={status.logged_in ? "default" : "secondary"} className="rounded-full">
+              {status.logged_in ? "✅ paired" : "⏳ belum pair"}
+            </Badge>
+          )}
+        </div>
 
         {status && !status.logged_in && (
-          <section className="bg-slate-900 border border-slate-800 rounded-2xl p-5 mb-4 text-center">
-            <h2 className="font-semibold mb-2">Pair this number</h2>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/api/w/instances/${id}/session/qr.svg?t=${qrTick}`} alt="Scan to pair"
-              className="mx-auto bg-white p-3 rounded-xl w-64 h-64" />
-            <p className="text-xs text-slate-400 mt-2">
-              WhatsApp → Linked Devices → Link a Device
-              {pairCode && (
-                <> · or enter pair-code <span className="font-mono text-lg font-bold tracking-widest">{pairCode}</span></>
-              )}
-            </p>
-          </section>
+          <Card className="rounded-3xl border-2 border-amber-200 bg-amber-50/60 mb-4">
+            <CardHeader>
+              <CardTitle>📱 Pairing dulu yuk!</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/api/w/instances/${id}/session/qr.svg?t=${qrTick}`} alt="Scan to pair"
+                className="mx-auto bg-white p-3 rounded-2xl w-64 h-64 shadow-md" />
+              <p className="text-xs text-slate-500 mt-2">
+                WhatsApp → Perangkat Tertaut → Tautkan
+                {pairCode && (
+                  <> · atau kode <span className="font-mono text-lg font-bold tracking-widest">{pairCode}</span></>
+                )}
+              </p>
+            </CardContent>
+          </Card>
         )}
 
-        <section className="bg-slate-900 border border-slate-800 rounded-2xl p-5 mb-4">
-          <h2 className="font-semibold mb-2">Send test message</h2>
-          <form onSubmit={send} className="flex gap-2 flex-wrap">
-            <input value={to} onChange={(e) => setTo(e.target.value)} placeholder="To: 628xx"
-              className="w-44 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-emerald-500" />
-            <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Text"
-              className="flex-1 min-w-[160px] bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-emerald-500" />
-            <button className="bg-emerald-600 hover:bg-emerald-500 rounded-lg px-4 py-2 text-sm font-medium">Send</button>
-          </form>
-          {out && <p className="text-xs text-slate-400 mt-2">{out}</p>}
-        </section>
+        <Card className="rounded-3xl border-2 mb-4">
+          <CardHeader><CardTitle>💌 Kirim pesan tes</CardTitle></CardHeader>
+          <CardContent>
+            <form onSubmit={send} className="flex gap-2 flex-wrap">
+              <Input value={to} onChange={(e) => setTo(e.target.value)} placeholder="Ke: 628xx"
+                className="w-44 rounded-xl" />
+              <Input value={text} onChange={(e) => setText(e.target.value)} placeholder="Tulis pesan…"
+                className="flex-1 min-w-[160px] rounded-xl" />
+              <Button className="rounded-full">Kirim</Button>
+            </form>
+            {out && <p className="text-xs text-slate-500 mt-2">{out}</p>}
+          </CardContent>
+        </Card>
 
-        <section className="bg-slate-900 border border-slate-800 rounded-2xl p-5 mb-4">
-          <h2 className="font-semibold mb-2">Webhook</h2>
-          <form onSubmit={saveWebhook} className="flex gap-2">
-            <input value={webhook} onChange={(e) => setWebhook(e.target.value)}
-              placeholder="https://your-server/webhook (empty = clear)"
-              className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-emerald-500" />
-            <button className="border border-slate-700 hover:border-slate-500 rounded-lg px-4 py-2 text-sm">Set</button>
-          </form>
-        </section>
+        <Card className="rounded-3xl border-2 mb-4">
+          <CardHeader><CardTitle>🔔 Webhook</CardTitle></CardHeader>
+          <CardContent>
+            <form onSubmit={saveWebhook} className="flex gap-2">
+              <Input value={webhook} onChange={(e) => setWebhook(e.target.value)}
+                placeholder="https://servermu/webhook (kosongkan = hapus)"
+                className="rounded-xl" />
+              <Button variant="outline" className="rounded-full shrink-0">Simpan</Button>
+            </form>
+          </CardContent>
+        </Card>
 
-        <section className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-          <h2 className="font-semibold mb-2">Recent messages</h2>
-          {msgs.length === 0 && <p className="text-sm text-slate-500">Nothing yet.</p>}
-          {msgs.map((m) => (
-            <div key={m.id} className="py-2 border-b border-slate-800 last:border-0 text-sm">
-              <span className="font-mono text-slate-400">{m.sender_pn || m.sender}</span>
-              <p className="text-slate-200">
-                {m.text || <span className="italic text-slate-500">[{m.media_kind || "non-text"}]</span>}
-              </p>
-            </div>
-          ))}
-        </section>
+        <Card className="rounded-3xl border-2">
+          <CardHeader><CardTitle>📨 Pesan terbaru</CardTitle></CardHeader>
+          <CardContent>
+            {msgs.length === 0 && <p className="text-sm text-slate-400">Belum ada. Coba kirim sesuatu ke nomor ini! 👆</p>}
+            {msgs.map((m) => (
+              <div key={m.id} className="py-2 border-b last:border-0 text-sm">
+                <span className="font-mono text-xs bg-amber-100 text-amber-900 rounded-full px-2 py-0.5">
+                  {m.sender_pn || m.sender}
+                </span>
+                <p className="mt-1">
+                  {m.text || <span className="italic text-slate-400">[{m.media_kind || "non-text"}]</span>}
+                </p>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        <div className="mt-6">
+          <Label className="text-xs text-slate-400">Butuh yang advance? Pakai API langsung 👇</Label>
+          <pre className="text-xs bg-slate-900 text-emerald-200 rounded-2xl p-4 mt-2 overflow-x-auto">
+            POST /api/v1/instances/{id}/messages/send{"\n"}
+            GET  /api/v1/instances/{id}/messages?from=&limit=
+          </pre>
+        </div>
       </div>
     </main>
   );
