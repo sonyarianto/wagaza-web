@@ -66,7 +66,22 @@ export default function Register() {
               className="rounded-xl mt-1 border-2"
             />
           </div>
+          <div className="mb-3">
+            <Label htmlFor="password" className="font-display">Password</Label>
+            <Input
+              id="password" value={password} onChange={(e) => setPassword(e.target.value)}
+              placeholder="min. 8 karakter" type="password" required minLength={8}
+              className="rounded-xl mt-1 border-2"
+            />
+          </div>
           <div className="mb-4">
+            <Label htmlFor="password2" className="font-display">Ulangi password</Label>
+            <Input
+              id="password2" value={confirm} onChange={(e) => setConfirm(e.target.value)}
+              placeholder="sama kayak di atas ya" type="password" required minLength={8}
+              className="rounded-xl mt-1 border-2"
+            />
+          </div>
             <Label htmlFor="password" className="font-display">Password</Label>
             <Input
               id="password" value={password} onChange={(e) => setPassword(e.target.value)}
