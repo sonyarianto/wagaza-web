@@ -2,7 +2,7 @@ export const WAGAZA_API_URL = (process.env.WAGAZA_API_URL || "").replace(/\/$/, 
 export const WAGAZA_API_KEY = process.env.WAGAZA_API_KEY || "";
 
 if (!WAGAZA_API_URL && process.env.NODE_ENV === "production") {
-  console.warn("[waga] WAGAZA_API_URL is not set");
+  console.warn("[wagaza] WAGAZA_API_URL is not set");
 }
 
 type WagaOpts = {

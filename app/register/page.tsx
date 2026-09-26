@@ -12,6 +12,7 @@ export default function Register() {
   const [confirm, setConfirm] = useState("");
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
   const router = useRouter();
 
   async function submit(e: React.FormEvent) {
@@ -29,9 +30,13 @@ export default function Register() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+      const b = await r.json().catch(() => ({}));
       if (!r.ok) {
-        const b = await r.json().catch(() => ({}));
         setErr(b.error || "register failed");
+        return;
+      }
+      if (b.needs_verification) {
+        setSent(true);
         return;
       }
       router.push("/dashboard");
@@ -59,6 +64,16 @@ export default function Register() {
           onSubmit={submit}
           className="bg-white border-2 border-slate-900 rounded-3xl p-6 pt-8 shadow-[8px_8px_0_#1e1b4b] rotate-1"
         >
+          {sent ? (
+            <div className="text-center py-4">
+              <div className="text-4xl mb-2">📬</div>
+              <h1 className="font-display font-bold text-2xl mb-2">Cek emailmu!</h1>
+              <p className="text-sm text-slate-500">
+                Link verifikasi meluncur ke <b>{email}</b>. Klik dalam 24 jam ya~
+              </p>
+            </div>
+          ) : (
+          <>
           <h1 className="font-display font-bold text-3xl mb-1">Bikin akun yuk!</h1>
           <p className="text-sm text-slate-500 mb-5">
             30 detik doang. <span className="font-hand text-lg text-slate-700">sumpah!</span>
@@ -106,6 +121,8 @@ export default function Register() {
               Masuk
             </Link>
           </p>
+          </>
+          )}
         </form>
         <p className="text-center mt-5">
           <Link href="/" className="font-display text-sm text-slate-400 hover:text-slate-800">
