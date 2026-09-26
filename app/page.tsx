@@ -106,7 +106,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* feature strip */}
       <section className="max-w-5xl mx-auto px-4 pb-14">
         <div className="border-2 border-slate-900 rounded-2xl bg-slate-900 text-white p-6 sm:p-8 shadow-[8px_8px_0_#c026d3]">
           <div className="flex flex-wrap gap-x-8 gap-y-3 font-display text-lg">
@@ -131,10 +130,7 @@ export default function Home() {
       </section>
 
       <footer className="border-t-2 border-slate-900 py-5 text-center text-sm text-slate-500">
-        Wagaza<span className="text-fuchsia-600">*</span> — gateway WhatsApp yang zantai~ ·{" "}
-        <Link href="/docs" className="underline underline-offset-4 hover:text-slate-800">
-          docs
-        </Link>
+        Wagaza<span className="text-fuchsia-600">*</span> — gateway WhatsApp yang zantai~
       </footer>
     </main>
   );
