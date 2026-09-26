@@ -10,22 +10,31 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
   const router = useRouter();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (busy) return;
     setErr("");
-    const r = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    if (!r.ok) {
-      const b = await r.json().catch(() => ({}));
-      setErr(b.error || "register failed");
-      return;
+    setBusy(true);
+    try {
+      const r = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!r.ok) {
+        const b = await r.json().catch(() => ({}));
+        setErr(b.error || "register failed");
+        return;
+      }
+      router.push("/dashboard");
+    } catch {
+      setErr("tidak bisa hubungi server — cek koneksimu lalu coba lagi");
+    } finally {
+      setBusy(false);
     }
-    router.push("/dashboard");
   }
 
   return (
@@ -70,9 +79,14 @@ export default function Register() {
               ⚠️ {err}
             </p>
           )}
-          <Button className="w-full rounded-full font-display text-lg bg-amber-400 hover:bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[4px_4px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#1e1b4b] transition-all">
-            Daftar 🚀
+          <Button type="submit" disabled={busy} className="w-full rounded-full font-display text-lg bg-amber-400 hover:bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[4px_4px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#1e1b4b] transition-all disabled:opacity-60">
+            {busy ? "Mengirim… ⏳" : "Daftar 🚀"}
           </Button>
+          <noscript>
+            <p className="text-sm font-semibold text-red-600 mt-3">
+              Halaman ini butuh JavaScript aktif untuk daftar.
+            </p>
+          </noscript>
           <p className="text-sm text-slate-500 mt-4 text-center">
             Sudah punya akun?{" "}
             <Link href="/login" className="text-fuchsia-600 font-semibold underline underline-offset-4">

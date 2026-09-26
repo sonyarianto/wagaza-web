@@ -72,9 +72,14 @@ function LoginForm() {
               ⚠️ {err}
             </p>
           )}
-          <Button className="w-full rounded-full font-display text-lg bg-violet-600 hover:bg-violet-500 border-2 border-slate-900 shadow-[4px_4px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#1e1b4b] transition-all">
+          <Button type="submit" className="w-full rounded-full font-display text-lg bg-violet-600 hover:bg-violet-500 border-2 border-slate-900 shadow-[4px_4px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#1e1b4b] transition-all">
             Masuk 🎉
           </Button>
+          <noscript>
+            <p className="text-sm font-semibold text-red-600 mt-3">
+              Halaman ini butuh JavaScript aktif untuk masuk.
+            </p>
+          </noscript>
           <p className="text-sm text-slate-500 mt-4 text-center">
             Belum punya akun?{" "}
             <Link href="/register" className="text-fuchsia-600 font-semibold underline underline-offset-4">
