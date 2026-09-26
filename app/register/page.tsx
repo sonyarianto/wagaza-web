@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const router = useRouter();
@@ -17,6 +18,10 @@ export default function Register() {
     e.preventDefault();
     if (busy) return;
     setErr("");
+    if (password !== confirm) {
+      setErr("password tidak sama — cek lagi ya 👀");
+      return;
+    }
     setBusy(true);
     try {
       const r = await fetch("/api/auth/register", {
