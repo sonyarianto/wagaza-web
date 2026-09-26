@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { waga } from "@/lib/waga";
+import { wagaza } from "@/lib/wagaza";
 import { clearSessionCookie, getSession } from "@/lib/session";
 
 export async function POST() {
   const token = await getSession();
   if (token) {
     // Best effort: invalidate server-side too.
-    await waga("/api/v1/auth/logout", { method: "POST", session: token }).catch(
+    await wagaza("/api/v1/auth/logout", { method: "POST", session: token }).catch(
       () => null
     );
   }

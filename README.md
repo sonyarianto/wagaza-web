@@ -1,17 +1,17 @@
 # waga-web
 
-Public website for Waga (Next.js, stateless). All state lives in the Waga
+Public website for Wagaza (Next.js, stateless). All state lives in the Wagaza
 gateway — this app is a thin backend-for-frontend over its API.
 
 ## Run
 
 ```bash
-cp .env.example .env.local   # set WAGA_API_URL + WAGA_API_KEY
+cp .env.example .env.local   # set WAGAZA_API_URL + WAGAZA_API_KEY
 npm install
 npm run dev
 ```
 
-`WAGA_API_KEY` is server-side only (API routes). The browser holds just the
+`WAGAZA_API_KEY` is server-side only (API routes). The browser holds just the
 `wgs` session cookie (httpOnly).
 
 ## Pages

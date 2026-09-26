@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { wagaJson, type PublicUser } from "@/lib/waga";
+import { wagazaJson, type PublicUser } from "@/lib/wagaza";
 import { sessionCookie } from "@/lib/session";
 
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json();
-    const data = await wagaJson<{ token: string; user: PublicUser }>(
+    const data = await wagazaJson<{ token: string; user: PublicUser }>(
       "/api/v1/auth/register",
       { method: "POST", body: { email, password } }
     );

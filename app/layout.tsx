@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
-export const metadata: Metadata = { title: "Waga — WhatsApp gateway" };
+export const metadata: Metadata = { title: "Wagaza — WhatsApp gateway" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

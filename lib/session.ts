@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export const SESSION_COOKIE = "wgs";
+export const SESSION_COOKIE = "wgz";
 const THIRTY_DAYS = 30 * 24 * 3600;
 
 export async function getSession(): Promise<string | null> {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { waga, wagaJson, type InstanceSummary } from "@/lib/waga";
+import { wagaza, wagazaJson, type InstanceSummary } from "@/lib/wagaza";
 import { getSession } from "@/lib/session";
 
 // (method, path-pattern) pairs the browser may use. :id segments are
@@ -47,7 +47,7 @@ function allowed(method: string, parts: string[]): { id?: string } | null {
 }
 
 async function ownedIds(session: string): Promise<Set<string>> {
-  const data = await wagaJson<{ instances: InstanceSummary[] }>("/api/v1/me/instances", {
+  const data = await wagazaJson<{ instances: InstanceSummary[] }>("/api/v1/me/instances", {
     session,
   });
   return new Set(data.instances.map((i) => i.id));
@@ -79,7 +79,7 @@ async function proxy(
       body = await req.json().catch(() => ({}));
       if (rule.id === undefined && p.join("/") === "registrations" && typeof body === "object" && body !== null) {
         // Bind new registrations to the logged-in user automatically.
-        const me = await wagaJson<{ id: string }>("/api/v1/auth/me", { session }).catch(() => null);
+        const me = await wagazaJson<{ id: string }>("/api/v1/auth/me", { session }).catch(() => null);
         if (me) (body as Record<string, unknown>).owner_user_id = me.id;
       }
     }
@@ -88,7 +88,7 @@ async function proxy(
     // Everything else goes with the server-side master key.
     const sessionOrMaster =
       p[0] === "me" ? { session } : { master: true as const };
-    const upstream = await waga(`/api/v1/${p.join("/")}${query}`, {
+    const upstream = await wagaza(`/api/v1/${p.join("/")}${query}`, {
       method,
       ...sessionOrMaster,
       body,

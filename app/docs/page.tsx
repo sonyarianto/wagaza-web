@@ -48,7 +48,7 @@ export default function Docs() {
           <CardContent className="text-sm text-slate-600 space-y-1">
             <p>• Maksimal 3x kirim (langsung, +2s, +10s); sukses = HTTP 2xx.</p>
             <p>• Dedupe pakai <code className="font-mono">(instance, message_id)</code>.</p>
-            <p>• Ditandatangani <code className="font-mono">x-waga-signature</code> (HMAC-SHA256) kalau dikonfigurasi.</p>
+            <p>• Ditandatangani <code className="font-mono">x-wagaza-signature</code> (HMAC-SHA256) kalau dikonfigurasi.</p>
           </CardContent>
         </Card>
       </div>
