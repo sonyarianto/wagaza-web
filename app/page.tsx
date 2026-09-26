@@ -1,6 +1,9 @@
 import Link from "next/link";
 
 const TICKER = ["KIRIM PESAN", "TERIMA WEBHOOK", "TANPA AUTO-REPLY", "QR PAIRING", "API DOCS"];
+// Repeat the set so one half is always wider than any viewport;
+// the two halves stay pixel-identical for a seamless -50% loop.
+const HALF = [...TICKER, ...TICKER, ...TICKER, ...TICKER];
 
 export default function Home() {
   return (
@@ -67,9 +70,9 @@ export default function Home() {
         <div className="animate-marquee flex w-max will-change-transform">
           {[0, 1].map((half) => (
             <div key={half} aria-hidden={half === 1} className="flex shrink-0">
-              {TICKER.map((t) => (
+              {HALF.map((t, i) => (
                 <span
-                  key={t}
+                  key={i}
                   className="font-display font-semibold text-lg whitespace-nowrap pr-8"
                 >
                   {t} <span className="text-amber-300">✦</span>
