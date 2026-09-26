@@ -1,16 +1,18 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function Login() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") || "/dashboard";
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -25,7 +27,7 @@ export default function Login() {
       setErr(b.error || "login failed");
       return;
     }
-    router.push("/dashboard");
+    router.push(next.startsWith("/") ? next : "/dashboard");
   }
 
   return (
@@ -87,5 +89,13 @@ export default function Login() {
         </p>
       </div>
     </main>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
