@@ -10,7 +10,7 @@ const fredoka = Fredoka({
 });
 const caveat = Caveat({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-caveat" });
 
-export const metadata: Metadata = { title: "Wagaza — WhatsApp gateway" };
+export const metadata: Metadata = { title: "Wagaza - Gateway WhatsApp untuk semua!" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
