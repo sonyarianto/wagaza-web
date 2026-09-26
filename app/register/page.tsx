@@ -82,13 +82,6 @@ export default function Register() {
               className="rounded-xl mt-1 border-2"
             />
           </div>
-            <Label htmlFor="password" className="font-display">Password</Label>
-            <Input
-              id="password" value={password} onChange={(e) => setPassword(e.target.value)}
-              placeholder="min. 8 karakter" type="password" required minLength={8}
-              className="rounded-xl mt-1 border-2"
-            />
-          </div>
           {err && (
             <p className="text-sm font-semibold text-red-600 bg-red-50 border-2 border-red-600 rounded-xl px-3 py-2 mb-3">
               ⚠️ {err}
