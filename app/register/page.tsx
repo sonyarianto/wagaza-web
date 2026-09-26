@@ -3,7 +3,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -30,32 +29,63 @@ export default function Register() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-amber-50 to-white text-slate-800 flex items-center justify-center px-4">
-      <Card className="w-full max-w-sm rounded-3xl border-2 shadow-xl shadow-amber-100">
-        <CardHeader className="text-center">
-          <div className="text-3xl mb-1">🎈</div>
-          <CardTitle className="text-2xl">Bikin akun yuk!</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={submit} className="space-y-3">
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                placeholder="kamu@email.com" type="email" required className="rounded-xl mt-1" />
-            </div>
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                placeholder="min. 8 karakter" type="password" required minLength={8} className="rounded-xl mt-1" />
-            </div>
-            {err && <p className="text-sm text-red-500">{err}</p>}
-            <Button className="w-full rounded-full">Daftar 🚀</Button>
-          </form>
-          <p className="text-sm text-slate-500 mt-4 text-center">
-            Sudah punya akun? <Link href="/login" className="text-emerald-600 font-medium">Masuk</Link>
+    <main className="min-h-screen bg-[#FFF6E9] text-slate-900 flex items-center justify-center px-4 py-10 relative overflow-hidden">
+      {/* floating deco */}
+      <div aria-hidden className="absolute top-12 right-[9%] w-16 h-16 bg-amber-300 border-2 border-slate-900 rounded-full hidden sm:block" />
+      <div aria-hidden className="absolute bottom-20 left-[7%] w-12 h-12 bg-violet-400 border-2 border-slate-900 rounded-2xl -rotate-12 hidden sm:block" />
+      <div aria-hidden className="absolute top-1/4 left-[5%] font-hand text-2xl text-slate-400 -rotate-6 hidden md:block">
+        gratis kok~ 🎈
+      </div>
+
+      <div className="w-full max-w-sm relative">
+        <div className="absolute -top-4 -left-3 z-10 bg-fuchsia-400 text-white border-2 border-slate-900 rounded-full px-3 py-1 font-display font-semibold text-sm -rotate-6 shadow-[3px_3px_0_#1e1b4b]">
+          baru di sini? ✨
+        </div>
+        <form
+          onSubmit={submit}
+          className="bg-white border-2 border-slate-900 rounded-3xl p-6 pt-8 shadow-[8px_8px_0_#1e1b4b] rotate-1"
+        >
+          <h1 className="font-display font-bold text-3xl mb-1">Bikin akun yuk!</h1>
+          <p className="text-sm text-slate-500 mb-5">
+            30 detik doang. <span className="font-hand text-lg text-slate-700">sumpah!</span>
           </p>
-        </CardContent>
-      </Card>
+          <div className="mb-3">
+            <Label htmlFor="email" className="font-display">Email</Label>
+            <Input
+              id="email" value={email} onChange={(e) => setEmail(e.target.value)}
+              placeholder="kamu@email.com" type="email" required
+              className="rounded-xl mt-1 border-2"
+            />
+          </div>
+          <div className="mb-4">
+            <Label htmlFor="password" className="font-display">Password</Label>
+            <Input
+              id="password" value={password} onChange={(e) => setPassword(e.target.value)}
+              placeholder="min. 8 karakter" type="password" required minLength={8}
+              className="rounded-xl mt-1 border-2"
+            />
+          </div>
+          {err && (
+            <p className="text-sm font-semibold text-red-600 bg-red-50 border-2 border-red-600 rounded-xl px-3 py-2 mb-3">
+              ⚠️ {err}
+            </p>
+          )}
+          <Button className="w-full rounded-full font-display text-lg bg-amber-400 hover:bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[4px_4px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#1e1b4b] transition-all">
+            Daftar 🚀
+          </Button>
+          <p className="text-sm text-slate-500 mt-4 text-center">
+            Sudah punya akun?{" "}
+            <Link href="/login" className="text-fuchsia-600 font-semibold underline underline-offset-4">
+              Masuk
+            </Link>
+          </p>
+        </form>
+        <p className="text-center mt-5">
+          <Link href="/" className="font-display text-sm text-slate-400 hover:text-slate-800">
+            ← Wagaza<span className="text-fuchsia-600">*</span>
+          </Link>
+        </p>
+      </div>
     </main>
   );
 }
