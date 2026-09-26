@@ -1,18 +1,11 @@
-# waga-web
+# Wagaza (web)
 
 Public website for Wagaza (Next.js, stateless). All state lives in the Wagaza
 gateway — this app is a thin backend-for-frontend over its API.
 
-## Run
-
-```bash
-cp .env.example .env.local   # set WAGAZA_API_URL + WAGAZA_API_KEY
-npm install
-npm run dev
-```
-
-`WAGAZA_API_KEY` is server-side only (API routes). The browser holds just the
-`wgs` session cookie (httpOnly).
+Configure via env: `WAGAZA_API_URL` + `WAGAZA_API_KEY` (server-side only,
+never `NEXT_PUBLIC_*`). The browser holds just the `wgz` session cookie
+(httpOnly).
 
 ## Pages
 
