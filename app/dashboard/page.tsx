@@ -47,7 +47,7 @@ export default function Dashboard() {
         body: JSON.stringify({ phone }),
       });
       setPhone("");
-      setMsg("✅ Terkirim! Tunggu approve, terus buka nomornya buat pairing. 🎉");
+      setMsg("✅ Masuk antrean! Tunggu approve, terus buka nomornya buat pairing. 🎉");
     } catch (e) {
       setMsg(e instanceof Error ? e.message : "failed");
     }
@@ -59,38 +59,43 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-slate-800">
+    <main className="min-h-screen bg-[#FFF6E9] text-slate-900">
       <div className="max-w-3xl mx-auto px-4 py-8">
         <header className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-500 flex items-center justify-center text-xl -rotate-3">💬</div>
-          <h1 className="text-2xl font-extrabold">Nomorku</h1>
-          <Button variant="ghost" size="sm" onClick={logout} className="ml-auto rounded-full">
-            Keluar
+          <h1 className="font-display font-bold text-3xl tracking-tight">
+            Nomorku <span className="font-hand text-2xl text-slate-500">eh, nomor-nomorku~</span>
+          </h1>
+          <Button variant="ghost" size="sm" onClick={logout} className="ml-auto rounded-full font-display">
+            Keluar 👋
           </Button>
         </header>
 
-        <Card className="rounded-3xl border-2 mb-4">
+        <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] mb-4 rotate-[0.5deg]">
           <CardHeader>
-            <CardTitle>📲 Daftarkan nomor WhatsApp</CardTitle>
+            <CardTitle className="font-display text-xl">📲 Daftarkan nomor WhatsApp</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={registerNumber} className="flex gap-2">
               <Input value={phone} onChange={(e) => setPhone(e.target.value)}
-                placeholder="cth. 62812xxxxxxx" className="rounded-xl" />
-              <Button className="rounded-full shrink-0">Daftar</Button>
+                placeholder="cth. 62812xxxxxxx" className="rounded-xl border-2" />
+              <Button className="rounded-full shrink-0 font-display bg-amber-400 hover:bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[3px_3px_0_#1e1b4b]">
+                Daftar
+              </Button>
             </form>
             {msg && <p className="text-sm text-slate-500 mt-2">{msg}</p>}
           </CardContent>
         </Card>
 
-        <Card className="rounded-3xl border-2">
+        <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] -rotate-[0.5deg]">
           <CardContent className="p-2">
             {instances.length === 0 && (
-              <p className="text-sm text-slate-400 p-4">Belum ada nomor. Daftarkan satu di atas yuk! 👆</p>
+              <p className="text-sm text-slate-400 p-4">
+                Kosong melompong~ 🍃 Daftarkan satu nomor di atas yuk! 👆
+              </p>
             )}
             {instances.map((i) => (
               <Link key={i.id} href={`/dashboard/${i.id}`}
-                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-emerald-50">
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-violet-50">
                 <span className="font-mono font-medium">{i.id}</span>
                 <Badge variant={i.logged_in ? "default" : "secondary"} className="rounded-full">
                   {i.logged_in ? "✅ paired" : "⏳ belum pair"}
@@ -102,7 +107,9 @@ export default function Dashboard() {
         </Card>
 
         <p className="mt-6 text-center">
-          <Link href="/docs" className="text-sm text-slate-400 hover:text-emerald-600">📖 API docs →</Link>
+          <Link href="/docs" className="font-display text-sm text-slate-400 hover:text-slate-800">
+            📖 API docs →
+          </Link>
         </p>
       </div>
     </main>
