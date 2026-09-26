@@ -51,6 +51,10 @@ export default function Docs() {
             <p>• Ditandatangani <code className="font-mono">x-wagaza-signature</code> (HMAC-SHA256) kalau dikonfigurasi.</p>
           </CardContent>
         </Card>
+        <p className="text-xs text-slate-400 mt-4">
+          * HP utama wajib online minimal sekali per ~14 hari (aturan WhatsApp:
+          kalau tidak, semua linked device termasuk gateway ikut logout).
+        </p>
       </div>
     </main>
   );

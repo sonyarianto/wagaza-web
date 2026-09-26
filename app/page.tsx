@@ -32,10 +32,10 @@ export default function Home() {
           gateway WhatsApp yang zantai~ 👋
         </span>
         <h1 className="font-display font-bold leading-[0.95] tracking-tight text-6xl sm:text-8xl">
-          SATU SERVER,
+          HP BOLEH MATI,
           <br />
           <span className="bg-violet-600 text-white px-4 rounded-2xl inline-block -rotate-1 shadow-[6px_6px_0_#1e1b4b]">
-            BANYAK NOMOR.
+            BISNIS TETAP JALAN.
           </span>
         </h1>
         <p className="font-display mt-6 text-xl sm:text-2xl text-slate-600 max-w-xl mx-auto leading-snug">
