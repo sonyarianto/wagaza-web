@@ -31,11 +31,15 @@ export default function Home() {
         <span className="font-hand text-2xl text-fuchsia-600 -rotate-3 inline-block mb-2">
           gateway WhatsApp yang zantai~ 👋
         </span>
-        <h1 className="font-display font-bold leading-[0.95] tracking-tight text-6xl sm:text-8xl">
-          HP BOLEH MATI,
+        <h1 className="font-display font-bold leading-[1.02] tracking-tight text-5xl sm:text-7xl lg:text-8xl">
+          MUDAH,
+          <br />
+          <span className="bg-amber-400 px-4 rounded-2xl inline-block rotate-1 shadow-[6px_6px_0_#1e1b4b]">
+            ASIK,
+          </span>
           <br />
           <span className="bg-violet-600 text-white px-4 rounded-2xl inline-block -rotate-1 shadow-[6px_6px_0_#1e1b4b]">
-            BISNIS TETAP JALAN.
+            TERKIRIM.
           </span>
         </h1>
         <p className="font-display mt-6 text-xl sm:text-2xl text-slate-600 max-w-xl mx-auto leading-snug">
