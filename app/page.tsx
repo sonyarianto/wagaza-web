@@ -60,11 +60,15 @@ export default function Home() {
 
       {/* marquee */}
       <div className="border-y-2 border-slate-900 bg-fuchsia-500 text-white py-2.5 -rotate-1 scale-[1.02] overflow-hidden">
-        <div className="animate-marquee flex whitespace-nowrap gap-8 font-display font-semibold text-lg w-max">
-          {[...TICKER, ...TICKER].map((t, i) => (
-            <span key={i}>
-              {t} <span className="text-amber-300">✦</span>
-            </span>
+        <div className="animate-marquee flex w-max">
+          {[0, 1].map((half) => (
+            <div key={half} aria-hidden={half === 1} className="flex gap-8 pr-8">
+              {TICKER.map((t) => (
+                <span key={t} className="font-display font-semibold text-lg whitespace-nowrap">
+                  {t} <span className="text-amber-300">✦</span>
+                </span>
+              ))}
+            </div>
           ))}
         </div>
       </div>
