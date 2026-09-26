@@ -38,9 +38,9 @@ export default function Home() {
             BANYAK NOMOR.
           </span>
         </h1>
-        <p className="mt-6 text-lg text-slate-600 max-w-xl mx-auto">
+        <p className="font-display mt-6 text-xl sm:text-2xl text-slate-600 max-w-xl mx-auto leading-snug">
           Daftarkan nomor WhatsApp-mu, scan sekali, terus terima webhook dan
-          balas via API. <span className="font-hand text-xl text-slate-800">tanpa drama.</span>
+          balas via API. <span className="font-hand text-2xl text-slate-800">tanpa drama.</span>
         </p>
         <div className="mt-8 flex gap-3 justify-center flex-wrap">
           <Link
