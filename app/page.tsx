@@ -110,7 +110,7 @@ export default function Home() {
       <section className="max-w-5xl mx-auto px-4 pb-14">
         <div className="border-2 border-slate-900 rounded-2xl bg-slate-900 text-white p-6 sm:p-8 shadow-[8px_8px_0_#c026d3]">
           <div className="flex flex-wrap gap-x-8 gap-y-3 font-display text-lg">
-            {["🤫 silent by design", "🖼️ kirim & terima file", "🔑 API key per nomor", "🪝 webhook + retry", "📊 dashboard santai"].map(
+            {["🤫 tanpa auto-reply", "🖼️ kirim & terima file", "🔑 API key per nomor", "🪝 webhook + retry", "📱 pairing sekali scan", "📖 ada API docs-nya"].map(
               (f) => (
                 <span key={f}>{f}</span>
               )
