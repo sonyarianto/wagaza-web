@@ -18,12 +18,15 @@ async function api(path: string, opts?: RequestInit) {
 
 export default function Dashboard() {
   const [instances, setInstances] = useState<Instance[]>([]);
+  const [email, setEmail] = useState<string | null>(null);
   const [phone, setPhone] = useState("");
   const [msg, setMsg] = useState("");
   const router = useRouter();
 
   async function load() {
     try {
+      const me = await api("/api/auth/me");
+      setEmail(me.user.email);
       const d = await api("/api/w/me/instances");
       setInstances(d.instances);
     } catch (e) {
@@ -62,9 +65,16 @@ export default function Dashboard() {
     <main className="min-h-screen bg-[#FFF6E9] text-slate-900">
       <div className="max-w-3xl mx-auto px-4 py-8">
         <header className="flex items-center gap-3 mb-6">
-          <h1 className="font-display font-bold text-3xl tracking-tight">
-            Nomorku <span className="font-hand text-2xl text-slate-500">eh, nomor-nomorku~</span>
-          </h1>
+          <div>
+            <h1 className="font-display font-bold text-3xl tracking-tight">
+              Nomorku <span className="font-hand text-2xl text-slate-500">eh, nomor-nomorku~</span>
+            </h1>
+            {email && (
+              <p className="text-xs text-slate-500 mt-1">
+                Masuk sebagai <span className="font-semibold text-slate-700">{email}</span>
+              </p>
+            )}
+          </div>
           <Button variant="ghost" size="sm" onClick={logout} className="ml-auto rounded-full font-display">
             Keluar 👋
           </Button>
