@@ -26,6 +26,7 @@ export default function InstanceDetail() {
   const router = useRouter();
   const [status, setStatus] = useState<Status | null>(null);
   const [pairCode, setPairCode] = useState<string | null>(null);
+  const [qrOk, setQrOk] = useState<boolean | null>(null);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [to, setTo] = useState("");
   const [text, setText] = useState("");
@@ -39,6 +40,7 @@ export default function InstanceDetail() {
       setStatus(s);
       const q = await api(`/api/w/instances/${id}/session/qr`);
       setPairCode(q.paired ? null : q.pair_code || null);
+      setQrOk(q.paired ? true : !!q.qr);
       const m = await api(`/api/w/instances/${id}/messages?limit=20`);
       setMsgs(m);
     } catch (e) {
@@ -109,15 +111,35 @@ export default function InstanceDetail() {
               <CardTitle>📱 Pairing dulu yuk!</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/api/w/instances/${id}/session/qr.svg?t=${qrTick}`} alt="Scan to pair"
-                className="mx-auto bg-white p-3 rounded-2xl w-64 h-64 shadow-md" />
-              <p className="text-xs text-slate-500 mt-2">
-                WhatsApp → Perangkat Tertaut → Tautkan
-                {pairCode && (
-                  <> · atau kode <span className="font-mono text-lg font-bold tracking-widest">{pairCode}</span></>
-                )}
-              </p>
+              {qrOk === true ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/api/w/instances/${id}/session/qr.svg?t=${qrTick}`} alt="Scan to pair"
+                    className="mx-auto bg-white p-3 rounded-2xl w-64 h-64 shadow-md" />
+                  <p className="text-xs text-slate-500 mt-2">
+                    WhatsApp → Perangkat Tertaut → Tautkan
+                    {pairCode && (
+                      <> · atau kode <span className="font-mono text-lg font-bold tracking-widest">{pairCode}</span></>
+                    )}
+                  </p>
+                </>
+              ) : qrOk === false ? (
+                <div className="py-4">
+                  <div className="text-4xl mb-2">🥲</div>
+                  <p className="font-display font-semibold">QR kedaluwarsa / belum tersedia</p>
+                  <p className="text-xs text-slate-500 mt-1 mb-3">
+                    Sesi perlu pairing ulang oleh admin. Hubungi admin/support ya~
+                    {pairCode && (
+                      <> · atau kode <span className="font-mono text-lg font-bold tracking-widest">{pairCode}</span></>
+                    )}
+                  </p>
+                  <Button type="button" variant="outline" size="sm" onClick={load} className="rounded-full">
+                    Muat ulang 🔄
+                  </Button>
+                </div>
+              ) : (
+                <p className="text-xs text-slate-400 py-8">Memuat QR… ⏳</p>
+              )}
             </CardContent>
           </Card>
         )}
