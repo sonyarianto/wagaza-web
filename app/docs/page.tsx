@@ -33,7 +33,7 @@ export default function Docs() {
       <div className="max-w-3xl mx-auto px-4 py-10">
         <p className="mb-4">
           <Link href="/" className="font-display text-sm text-slate-500 hover:text-slate-900">
-            ← Wagaza<span className="text-fuchsia-600">*</span>
+            ← Wagaza
           </Link>
         </p>
         <h1 className="font-display font-bold text-4xl sm:text-5xl mb-2">

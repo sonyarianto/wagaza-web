@@ -77,7 +77,7 @@ function VerifyInner() {
             )}
             <p className="mt-4">
               <Link href="/" className="font-display text-sm text-slate-400 hover:text-slate-800">
-                ← Wagaza<span className="text-fuchsia-600">*</span>
+                ← Wagaza
               </Link>
             </p>
           </>

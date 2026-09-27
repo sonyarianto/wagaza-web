@@ -11,7 +11,7 @@ export default function Home() {
       {/* nav */}
       <nav className="max-w-5xl mx-auto px-4 pt-5 flex items-center gap-2">
         <span className="font-display font-bold text-2xl tracking-tight">
-          Wagaza<span className="text-fuchsia-600">*</span>
+          Wagaza
         </span>
         <div className="ml-auto flex gap-2">
           <Link
@@ -19,12 +19,6 @@ export default function Home() {
             className="font-display px-4 py-2 text-base font-semibold border-2 border-slate-900 rounded-full bg-white hover:bg-amber-200 transition-colors"
           >
             Masuk
-          </Link>
-          <Link
-            href="/docs"
-            className="font-display px-4 py-2 text-base font-semibold hover:underline underline-offset-4"
-          >
-            Docs
           </Link>
         </div>
       </nav>
@@ -55,12 +49,6 @@ export default function Home() {
             className="font-display font-semibold text-lg px-8 py-3 rounded-full bg-amber-400 border-2 border-slate-900 shadow-[5px_5px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_#1e1b4b] transition-all"
           >
             Daftar gratis →
-          </Link>
-          <Link
-            href="/docs"
-            className="font-display font-semibold text-lg px-8 py-3 rounded-full bg-white border-2 border-slate-900 shadow-[5px_5px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_#1e1b4b] transition-all"
-          >
-            Lihat API
           </Link>
         </div>
       </section>
@@ -130,7 +118,7 @@ export default function Home() {
       </section>
 
       <footer className="border-t-2 border-slate-900 py-5 text-center text-sm text-slate-500">
-        Wagaza<span className="text-fuchsia-600">*</span> — gateway WhatsApp yang zantai~
+        Wagaza — gateway WhatsApp yang zantai~
       </footer>
     </main>
   );
