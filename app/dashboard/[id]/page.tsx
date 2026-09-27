@@ -130,7 +130,7 @@ export default function InstanceDetail() {
                 className="w-44 rounded-xl" />
               <Input value={text} onChange={(e) => setText(e.target.value)} placeholder="Tulis pesan…"
                 className="flex-1 min-w-[160px] rounded-xl" />
-              <Button className="rounded-full">Kirim</Button>
+              <Button type="submit" className="rounded-full">Kirim</Button>
             </form>
             {out && <p className="text-xs text-slate-500 mt-2">{out}</p>}
           </CardContent>
@@ -143,7 +143,7 @@ export default function InstanceDetail() {
               <Input value={webhook} onChange={(e) => setWebhook(e.target.value)}
                 placeholder="https://servermu/webhook (kosongkan = hapus)"
                 className="rounded-xl" />
-              <Button variant="outline" className="rounded-full shrink-0">Simpan</Button>
+              <Button type="submit" variant="outline" className="rounded-full shrink-0">Simpan</Button>
             </form>
           </CardContent>
         </Card>

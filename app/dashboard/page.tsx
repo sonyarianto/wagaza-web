@@ -78,7 +78,7 @@ export default function Dashboard() {
             <form onSubmit={registerNumber} className="flex gap-2">
               <Input value={phone} onChange={(e) => setPhone(e.target.value)}
                 placeholder="cth. 62812xxxxxxx" className="rounded-xl border-2" />
-              <Button className="rounded-full shrink-0 font-display bg-amber-400 hover:bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[3px_3px_0_#1e1b4b]">
+              <Button type="submit" className="rounded-full shrink-0 font-display bg-amber-400 hover:bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[3px_3px_0_#1e1b4b]">
                 Daftar
               </Button>
             </form>
