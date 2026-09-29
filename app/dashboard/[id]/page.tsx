@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,8 @@ export default function InstanceDetail() {
   const [to, setTo] = useState("");
   const [text, setText] = useState("");
   const [webhook, setWebhook] = useState("");
+  // Prefill the saved URL once; periodic refreshes must not clobber typing.
+  const webhookTouched = useRef(false);
   const [out, setOut] = useState("");
   const [qrTick, setQrTick] = useState(Date.now());
 
@@ -45,6 +47,10 @@ export default function InstanceDetail() {
       // Status broadcasts (stories) are skipped server-side for new
       // traffic; hide any rows logged before that filter existed.
       setMsgs((m as Msg[]).filter((msg) => msg.chat !== "status@broadcast"));
+      if (!webhookTouched.current) {
+        const w = await api(`/api/w/instances/${id}/webhook`);
+        setWebhook(typeof w.url === "string" ? w.url : "");
+      }
     } catch (e) {
       if (e instanceof Error && /not logged in|session|not your instance/i.test(e.message)) {
         router.push("/dashboard");
@@ -164,7 +170,7 @@ export default function InstanceDetail() {
           <CardHeader><CardTitle>🔔 Webhook</CardTitle></CardHeader>
           <CardContent>
             <form onSubmit={saveWebhook} className="flex gap-2">
-              <Input value={webhook} onChange={(e) => setWebhook(e.target.value)}
+              <Input value={webhook} onChange={(e) => { webhookTouched.current = true; setWebhook(e.target.value); }}
                 placeholder="https://servermu/webhook (kosongkan = hapus)"
                 className="rounded-xl" />
               <Button type="submit" variant="outline" className="rounded-full shrink-0">Simpan</Button>

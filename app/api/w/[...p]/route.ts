@@ -11,6 +11,7 @@ const GET_OK = new Set([
   "instances/:id/session/qr.svg",
   "instances/:id/messages",
   "instances/:id/users",
+  "instances/:id/webhook",
   "instances/:id/identity/mappings",
 ]);
 const POST_OK = new Set([
