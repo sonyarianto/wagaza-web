@@ -42,7 +42,9 @@ export default function InstanceDetail() {
       setPairCode(q.paired ? null : q.pair_code || null);
       setQrOk(q.paired ? true : !!q.qr);
       const m = await api(`/api/w/instances/${id}/messages?limit=20`);
-      setMsgs(m);
+      // Status broadcasts (stories) are skipped server-side for new
+      // traffic; hide any rows logged before that filter existed.
+      setMsgs((m as Msg[]).filter((msg) => msg.chat !== "status@broadcast"));
     } catch (e) {
       if (e instanceof Error && /not logged in|session|not your instance/i.test(e.message)) {
         router.push("/dashboard");
