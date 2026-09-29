@@ -30,6 +30,7 @@ export default function InstanceDetail() {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [to, setTo] = useState("");
   const [text, setText] = useState("");
+  const [replyTo, setReplyTo] = useState<{ id: number; sender: string; snippet: string } | null>(null);
   const [webhook, setWebhook] = useState("");
   // Prefill the saved URL once; periodic refreshes must not clobber typing.
   const webhookTouched = useRef(false);
@@ -72,13 +73,16 @@ export default function InstanceDetail() {
     e.preventDefault();
     setOut("");
     try {
+      // Quoting: destination comes from the quoted message, so `to` is omitted.
+      const body = replyTo ? { text, reply_to: replyTo.id } : { to, text };
       const r = await api(`/api/w/instances/${id}/messages/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ to, text }),
+        body: JSON.stringify(body),
       });
       setOut(`✅ Terkirim: ${r.message_id}`);
       setText("");
+      setReplyTo(null);
     } catch (e) {
       setOut(e instanceof Error ? e.message : "send failed");
     }
@@ -170,6 +174,13 @@ export default function InstanceDetail() {
           <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] rotate-[0.5deg]">
             <CardHeader><CardTitle className="font-display">Kirim pesan tes</CardTitle></CardHeader>
             <CardContent>
+              {replyTo && (
+                <div className="flex items-center gap-2 mb-2 bg-violet-50 border-2 border-violet-600 rounded-xl px-3 py-1.5 text-sm">
+                  <span>↩️ <span className="font-mono text-xs font-semibold">{replyTo.sender}</span>: {replyTo.snippet.slice(0, 60)}</span>
+                  <button type="button" onClick={() => setReplyTo(null)}
+                    className="ml-auto font-bold text-slate-400 hover:text-red-600">✕</button>
+                </div>
+              )}
               <form onSubmit={send} className="flex gap-2 flex-wrap">
                 <Input value={to} onChange={(e) => setTo(e.target.value)} placeholder="Ke: 628xx / nama kontak"
                   className="w-44 rounded-xl border-2" />
@@ -204,10 +215,19 @@ export default function InstanceDetail() {
           <CardContent>
             {msgs.length === 0 && <p className="text-sm text-slate-400">Belum ada. Coba kirim sesuatu ke nomor ini! 👆</p>}
             {msgs.map((m) => (
-              <div key={m.id} className="py-2 border-b last:border-0 text-sm">
+              <div key={m.id} className="py-2 border-b last:border-0 text-sm group">
                 <span className="font-mono text-xs bg-amber-100 text-amber-900 rounded-full px-2 py-0.5 border border-slate-900">
                   {m.sender_pn || m.sender}
                 </span>
+                <button type="button" title="Balas pesan ini"
+                  onClick={() => setReplyTo({
+                    id: m.id,
+                    sender: m.sender_pn || m.sender,
+                    snippet: m.text || `[${m.media_kind || "non-text"}]`,
+                  })}
+                  className="ml-2 text-xs font-display text-violet-600 sm:opacity-0 sm:group-hover:opacity-100 hover:text-violet-400 transition-opacity">
+                  ↩️ Balas
+                </button>
                 <p className="mt-1">
                   {m.text || <span className="italic text-slate-400">[{m.media_kind || "non-text"}]</span>}
                 </p>
