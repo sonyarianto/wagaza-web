@@ -99,22 +99,33 @@ export default function InstanceDetail() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-slate-800">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+    <main className="min-h-screen bg-[#FFF6E9] text-slate-900 relative overflow-hidden">
+      {/* floating deco */}
+      <div aria-hidden className="absolute top-20 left-[7%] w-10 h-10 bg-amber-300 border-2 border-slate-900 rounded-xl rotate-12 hidden sm:block" />
+      <div aria-hidden className="absolute top-72 right-[6%] w-14 h-14 bg-violet-400 border-2 border-slate-900 rounded-full -rotate-12 hidden sm:block" />
+      <div aria-hidden className="absolute bottom-32 left-[9%] font-hand text-2xl text-slate-400 rotate-3 hidden md:block">
+        gas kirim~ 🚀
+      </div>
+
+      <div className="max-w-3xl mx-auto px-4 py-8 relative">
         <p className="mb-4">
-          <Link href="/dashboard" className="text-sm text-slate-400 hover:text-emerald-600">← Nomorku</Link>
+          <Link href="/dashboard" className="font-display text-sm text-slate-400 hover:text-slate-800">← Nomorku</Link>
         </p>
-        <div className="flex items-center gap-2 mb-6">
-          <h1 className="text-2xl font-extrabold font-mono">{id}</h1>
+        <div className="flex items-center gap-2 mb-6 flex-wrap">
+          <h1 className="font-display font-bold text-3xl tracking-tight">
+            <span className="bg-amber-400 px-3 rounded-2xl inline-block rotate-1 shadow-[4px_4px_0_#1e1b4b] font-mono">
+              {id}
+            </span>
+          </h1>
           {status && (
-            <Badge variant={status.logged_in ? "default" : "secondary"} className="rounded-full">
+            <Badge variant={status.logged_in ? "default" : "secondary"} className="rounded-full border border-slate-900 -rotate-2">
               {status.logged_in ? "✅ paired" : "⏳ belum pair"}
             </Badge>
           )}
         </div>
 
         {status && !status.logged_in && (
-          <Card className="rounded-3xl border-2 border-amber-200 bg-amber-50/60 mb-4">
+          <Card className="rounded-3xl border-2 border-slate-900 bg-amber-50 mb-4 shadow-[6px_6px_0_#1e1b4b] rotate-[0.5deg]">
             <CardHeader>
               <CardTitle>📱 Pairing dulu yuk!</CardTitle>
             </CardHeader>
@@ -152,39 +163,49 @@ export default function InstanceDetail() {
           </Card>
         )}
 
-        <Card className="rounded-3xl border-2 mb-4">
-          <CardHeader><CardTitle>💌 Kirim pesan tes</CardTitle></CardHeader>
-          <CardContent>
-            <form onSubmit={send} className="flex gap-2 flex-wrap">
-              <Input value={to} onChange={(e) => setTo(e.target.value)} placeholder="Ke: 628xx"
-                className="w-44 rounded-xl" />
-              <Input value={text} onChange={(e) => setText(e.target.value)} placeholder="Tulis pesan…"
-                className="flex-1 min-w-[160px] rounded-xl" />
-              <Button type="submit" className="rounded-full">Kirim</Button>
-            </form>
-            {out && <p className="text-xs text-slate-500 mt-2">{out}</p>}
-          </CardContent>
-        </Card>
+        <div className="relative mb-4">
+          <div className="absolute -top-3 right-4 z-10 bg-sky-300 border-2 border-slate-900 rounded-full px-3 py-1 font-display font-semibold text-sm -rotate-3 shadow-[3px_3px_0_#1e1b4b]">
+            tes kirim! 💌
+          </div>
+          <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] rotate-[0.5deg]">
+            <CardHeader><CardTitle className="font-display">Kirim pesan tes</CardTitle></CardHeader>
+            <CardContent>
+              <form onSubmit={send} className="flex gap-2 flex-wrap">
+                <Input value={to} onChange={(e) => setTo(e.target.value)} placeholder="Ke: 628xx / nama kontak"
+                  className="w-44 rounded-xl border-2" />
+                <Input value={text} onChange={(e) => setText(e.target.value)} placeholder="Tulis pesan…"
+                  className="flex-1 min-w-[160px] rounded-xl border-2" />
+                <Button type="submit" className="rounded-full font-display bg-violet-600 hover:bg-violet-500 border-2 border-slate-900 shadow-[3px_3px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_#1e1b4b] transition-all">Kirim</Button>
+              </form>
+              {out && <p className="text-xs text-slate-500 mt-2">{out}</p>}
+            </CardContent>
+          </Card>
+        </div>
 
-        <Card className="rounded-3xl border-2 mb-4">
-          <CardHeader><CardTitle>🔔 Webhook</CardTitle></CardHeader>
-          <CardContent>
-            <form onSubmit={saveWebhook} className="flex gap-2">
-              <Input value={webhook} onChange={(e) => { webhookTouched.current = true; setWebhook(e.target.value); }}
-                placeholder="https://servermu/webhook (kosongkan = hapus)"
-                className="rounded-xl" />
-              <Button type="submit" variant="outline" className="rounded-full shrink-0">Simpan</Button>
-            </form>
-          </CardContent>
-        </Card>
+        <div className="relative mb-4">
+          <div className="absolute -top-3 right-4 z-10 bg-amber-300 border-2 border-slate-900 rounded-full px-3 py-1 font-display font-semibold text-sm rotate-2 shadow-[3px_3px_0_#1e1b4b]">
+            pantau webhook 🪝
+          </div>
+          <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] -rotate-[0.5deg]">
+            <CardHeader><CardTitle className="font-display">Webhook</CardTitle></CardHeader>
+            <CardContent>
+              <form onSubmit={saveWebhook} className="flex gap-2">
+                <Input value={webhook} onChange={(e) => setWebhook(e.target.value)}
+                  placeholder="https://servermu/webhook (kosongkan = hapus)"
+                  className="rounded-xl border-2" />
+                <Button type="submit" variant="outline" className="rounded-full shrink-0 font-display border-2 border-slate-900 shadow-[3px_3px_0_#1e1b4b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_#1e1b4b] transition-all">Simpan</Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
 
-        <Card className="rounded-3xl border-2">
-          <CardHeader><CardTitle>📨 Pesan terbaru</CardTitle></CardHeader>
+        <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] rotate-[0.5deg] hover:rotate-0 transition-transform">
+          <CardHeader><CardTitle className="font-display">📨 Pesan terbaru</CardTitle></CardHeader>
           <CardContent>
             {msgs.length === 0 && <p className="text-sm text-slate-400">Belum ada. Coba kirim sesuatu ke nomor ini! 👆</p>}
             {msgs.map((m) => (
               <div key={m.id} className="py-2 border-b last:border-0 text-sm">
-                <span className="font-mono text-xs bg-amber-100 text-amber-900 rounded-full px-2 py-0.5">
+                <span className="font-mono text-xs bg-amber-100 text-amber-900 rounded-full px-2 py-0.5 border border-slate-900">
                   {m.sender_pn || m.sender}
                 </span>
                 <p className="mt-1">
@@ -197,11 +218,15 @@ export default function InstanceDetail() {
 
         <div className="mt-6">
           <Label className="text-xs text-slate-400">Butuh yang advance? Pakai API langsung 👇</Label>
-          <pre className="text-xs bg-slate-900 text-emerald-200 rounded-2xl p-4 mt-2 overflow-x-auto">
+          <pre className="text-xs bg-slate-900 text-emerald-200 rounded-2xl p-4 mt-2 overflow-x-auto border-2 border-slate-900 shadow-[4px_4px_0_#c026d3]">
             POST /api/v1/instances/{id}/messages/send{"\n"}
             GET  /api/v1/instances/{id}/messages?from=&limit=
           </pre>
         </div>
+
+        <p className="font-hand text-2xl text-slate-400 text-center mt-8">
+          zantai ya~ 🍃
+        </p>
       </div>
     </main>
   );

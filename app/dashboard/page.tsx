@@ -62,12 +62,22 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FFF6E9] text-slate-900">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+    <main className="min-h-screen bg-[#FFF6E9] text-slate-900 relative overflow-hidden">
+      {/* floating deco */}
+      <div aria-hidden className="absolute top-16 right-[8%] w-12 h-12 bg-sky-300 border-2 border-slate-900 rounded-full -rotate-12 hidden sm:block" />
+      <div aria-hidden className="absolute top-64 left-[6%] w-14 h-14 bg-fuchsia-400 border-2 border-slate-900 rounded-2xl rotate-12 hidden sm:block" />
+      <div aria-hidden className="absolute bottom-24 right-[10%] font-hand text-2xl text-slate-400 -rotate-6 hidden md:block">
+        nomor andalan~ ✨
+      </div>
+
+      <div className="max-w-3xl mx-auto px-4 py-8 relative">
         <header className="flex items-center gap-3 mb-6">
           <div>
             <h1 className="font-display font-bold text-3xl tracking-tight">
-              Nomorku <span className="font-hand text-2xl text-slate-500">eh, nomor-nomorku~</span>
+              <span className="bg-amber-400 px-3 rounded-2xl inline-block rotate-1 shadow-[4px_4px_0_#1e1b4b]">
+                Nomorku
+              </span>{" "}
+              <span className="font-hand text-2xl text-slate-500">eh, nomor-nomorku~</span>
             </h1>
             {email && (
               <p className="text-xs text-slate-500 mt-1">
@@ -80,23 +90,28 @@ export default function Dashboard() {
           </Button>
         </header>
 
-        <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] mb-4 rotate-[0.5deg]">
-          <CardHeader>
-            <CardTitle className="font-display text-xl">📲 Daftarkan nomor WhatsApp</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={registerNumber} className="flex gap-2">
-              <Input value={phone} onChange={(e) => setPhone(e.target.value)}
-                placeholder="cth. 62812xxxxxxx" className="rounded-xl border-2" />
-              <Button type="submit" className="rounded-full shrink-0 font-display bg-amber-400 hover:bg-amber-300 text-slate-900 border-2 border-slate-900 shadow-[3px_3px_0_#1e1b4b]">
-                Daftar
-              </Button>
-            </form>
-            {msg && <p className="text-sm text-slate-500 mt-2">{msg}</p>}
-          </CardContent>
-        </Card>
+        <div className="relative mb-4">
+          <div className="absolute -top-3 right-4 z-10 bg-fuchsia-400 text-white border-2 border-slate-900 rounded-full px-3 py-1 font-display font-semibold text-sm rotate-3 shadow-[3px_3px_0_#1e1b4b]">
+            tambah baru! 📲
+          </div>
+          <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] rotate-[0.5deg]">
+            <CardHeader>
+              <CardTitle className="font-display text-xl">Daftarkan nomor WhatsApp</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={registerNumber} className="flex gap-2">
+                <Input value={phone} onChange={(e) => setPhone(e.target.value)}
+                  placeholder="cth. 62812xxxxxxx" className="rounded-xl border-2" />
+                <Button type="submit" className="rounded-full shrink-0 font-display bg-amber-400 hover:bg-amber-300 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_#1e1b4b] text-slate-900 border-2 border-slate-900 shadow-[3px_3px_0_#1e1b4b] transition-all">
+                  Daftar
+                </Button>
+              </form>
+              {msg && <p className="text-sm text-slate-500 mt-2">{msg}</p>}
+            </CardContent>
+          </Card>
+        </div>
 
-        <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] -rotate-[0.5deg]">
+        <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] -rotate-[0.5deg] hover:rotate-0 transition-transform">
           <CardContent className="p-2">
             {instances.length === 0 && (
               <p className="text-sm text-slate-400 p-4">
@@ -105,9 +120,9 @@ export default function Dashboard() {
             )}
             {instances.map((i) => (
               <Link key={i.id} href={`/dashboard/${i.id}`}
-                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-violet-50">
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-violet-50 hover:translate-x-1 transition-all">
                 <span className="font-mono font-medium">{i.id}</span>
-                <Badge variant={i.logged_in ? "default" : "secondary"} className="rounded-full">
+                <Badge variant={i.logged_in ? "default" : "secondary"} className="rounded-full border border-slate-900">
                   {i.logged_in ? "✅ paired" : "⏳ belum pair"}
                 </Badge>
                 <span className="ml-auto text-slate-300">→</span>
@@ -116,7 +131,10 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <p className="mt-6 text-center">
+        <p className="font-hand text-2xl text-slate-400 text-center mt-8">
+          zantai ya~ 🍃
+        </p>
+        <p className="mt-2 text-center">
           <Link href="/docs" className="font-display text-sm text-slate-400 hover:text-slate-800">
             📖 API docs →
           </Link>
