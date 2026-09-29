@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const TICKER = ["KIRIM PESAN", "TERIMA WEBHOOK", "TANPA AUTO-REPLY", "QR PAIRING", "API DOCS"];
+const TICKER = ["KIRIM PESAN", "TERIMA WEBHOOK", "QR PAIRING", "API DOCS"];
 // Repeat the set so one half is always wider than any viewport;
 // the two halves stay pixel-identical for a seamless -50% loop.
 const HALF = [...TICKER, ...TICKER, ...TICKER, ...TICKER];
@@ -97,7 +97,7 @@ export default function Home() {
       <section className="max-w-5xl mx-auto px-4 pb-14">
         <div className="border-2 border-slate-900 rounded-2xl bg-slate-900 text-white p-6 sm:p-8 shadow-[8px_8px_0_#c026d3]">
           <div className="flex flex-wrap gap-x-8 gap-y-3 font-display text-lg">
-            {["🤫 tanpa auto-reply", "🖼️ kirim & terima file", "🔑 API key per nomor", "🪝 webhook + retry", "📱 pairing sekali scan", "📖 ada API docs-nya"].map(
+            {["🖼️ kirim & terima file", "🔑 API key per nomor", "🪝 webhook + retry", "📱 pairing sekali scan", "📖 ada API docs-nya"].map(
               (f) => (
                 <span key={f}>{f}</span>
               )
