@@ -1,10 +1,13 @@
 import Link from "next/link";
 
 const CUSTOMER_ROWS: [string, string, string][] = [
-  ["POST", "/api/v1/instances/{id}/messages/send", "Kirim teks {to, text} — dipakai tiap balas"],
+  ["POST", "/api/v1/instances/{id}/messages/send", "Kirim teks {to, text, reply_to?} — reply pakai id baris"],
   ["POST", "/api/v1/instances/{id}/messages/send-media", "Kirim file (multipart)"],
   ["GET", "/api/v1/instances/{id}/status", "Cek nomormu konek atau tidak"],
   ["GET", "/api/v1/instances/{id}/messages?from=&limit=", "Ambil pesan yang ketinggalan"],
+  ["GET", "/api/v1/instances/{id}/contacts", "Buku alamat: nama → nomor"],
+  ["POST", "/api/v1/instances/{id}/contacts", "Simpan kontak {name, phone}"],
+  ["DELETE", "/api/v1/instances/{id}/contacts/{name}", "Hapus kontak"],
 ];
 
 const OPERATOR_ROWS: [string, string, string][] = [
@@ -16,6 +19,8 @@ const OPERATOR_ROWS: [string, string, string][] = [
   ["GET", "/api/v1/instances/{id}/session/qr.svg", "Gambar QR siap scan"],
   ["POST", "/api/v1/instances/{id}/session/pair", "Minta pair-code"],
   ["GET", "/api/v1/instances/{id}/messages/{row}/media", "Download lampiran"],
+  ["DELETE", "/api/v1/instances/{id}/messages/{row}", "Hapus satu pesan tersimpan"],
+  ["GET", "/api/v1/instances/{id}/webhook", "Lihat webhook terpasang"],
   ["POST", "/api/v1/instances/{id}/webhook", "Set webhook {url}"],
   ["GET", "/api/v1/instances/{id}/users", "Daftar pengirim terdaftar"],
   ["POST", "/api/v1/instances/{id}/users/register", "Daftarkan pengirim {phone}"],
