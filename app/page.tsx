@@ -78,7 +78,7 @@ export default function Home() {
         </h2>
         <div className="grid sm:grid-cols-3 gap-5">
           {[
-            ["01", "Daftar + approve", "Tulis nomormu, operator approve, dapat link klaim sekali pakai.", "bg-sky-200", "-rotate-1"],
+            ["01", "Daftar + approve", "Tulis nomormu, operator approve, buka dashboard buat scan QR — langsung pakai.", "bg-sky-200", "-rotate-1"],
             ["02", "Scan QR", "Buka WhatsApp → Perangkat Tertaut → scan. Sekali doang!", "bg-amber-200", "rotate-1"],
             ["03", "Terima & balas", "Webhook masuk ke servermu, balas via API. Beres!", "bg-pink-200", "-rotate-1"],
           ].map(([n, title, desc, bg, tilt]) => (
