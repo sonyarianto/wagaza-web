@@ -31,11 +31,26 @@ export default function InstanceDetail() {
   const [to, setTo] = useState("");
   const [text, setText] = useState("");
   const [replyTo, setReplyTo] = useState<{ id: number; sender: string; snippet: string } | null>(null);
+  const [query, setQuery] = useState("");
+  const [appliedQuery, setAppliedQuery] = useState("");
+  const [msgLimit, setMsgLimit] = useState(50);
+  // Search + limit live in refs so the 5s poller always uses current values.
+  const queryRef = useRef("");
+  const limitRef = useRef(50);
   const [webhook, setWebhook] = useState("");
   // Prefill the saved URL once; periodic refreshes must not clobber typing.
   const webhookTouched = useRef(false);
   const [out, setOut] = useState("");
   const [qrTick, setQrTick] = useState(Date.now());
+
+  const loadMsgs = useCallback(async () => {
+    const params = new URLSearchParams({ limit: String(limitRef.current) });
+    if (queryRef.current) params.set("from", queryRef.current);
+    const m = await api(`/api/w/instances/${id}/messages?${params}`);
+    // Status broadcasts (stories) are skipped server-side for new
+    // traffic; hide any rows logged before that filter existed.
+    setMsgs((m as Msg[]).filter((msg) => msg.chat !== "status@broadcast"));
+  }, [id]);
 
   const load = useCallback(async () => {
     try {
@@ -44,10 +59,7 @@ export default function InstanceDetail() {
       const q = await api(`/api/w/instances/${id}/session/qr`);
       setPairCode(q.paired ? null : q.pair_code || null);
       setQrOk(q.paired ? true : !!q.qr);
-      const m = await api(`/api/w/instances/${id}/messages?limit=20`);
-      // Status broadcasts (stories) are skipped server-side for new
-      // traffic; hide any rows logged before that filter existed.
-      setMsgs((m as Msg[]).filter((msg) => msg.chat !== "status@broadcast"));
+      await loadMsgs();
       if (!webhookTouched.current) {
         const w = await api(`/api/w/instances/${id}/webhook`);
         setWebhook(typeof w.url === "string" ? w.url : "");
@@ -57,7 +69,7 @@ export default function InstanceDetail() {
         router.push("/dashboard");
       } else setOut(e instanceof Error ? e.message : "load failed");
     }
-  }, [id, router]);
+  }, [id, router, loadMsgs]);
 
   useEffect(() => {
     load();
@@ -68,6 +80,29 @@ export default function InstanceDetail() {
     return () => clearInterval(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  async function searchMsgs(e: React.FormEvent) {
+    e.preventDefault();
+    queryRef.current = query.trim();
+    setAppliedQuery(queryRef.current);
+    limitRef.current = 50;
+    setMsgLimit(50);
+    try {
+      await loadMsgs();
+    } catch (e) {
+      setOut(e instanceof Error ? e.message : "search failed");
+    }
+  }
+
+  async function moreMsgs() {
+    limitRef.current += 50;
+    setMsgLimit(limitRef.current);
+    try {
+      await loadMsgs();
+    } catch (e) {
+      setOut(e instanceof Error ? e.message : "load failed");
+    }
+  }
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
@@ -213,6 +248,18 @@ export default function InstanceDetail() {
         <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] rotate-[0.5deg] hover:rotate-0 transition-transform">
           <CardHeader><CardTitle className="font-display">📨 Pesan terbaru</CardTitle></CardHeader>
           <CardContent>
+            <form onSubmit={searchMsgs} className="flex gap-2 mb-2">
+              <Input value={query} onChange={(e) => setQuery(e.target.value)}
+                placeholder="🔍 Cari nomor / pengirim…"
+                className="rounded-xl border-2" />
+              <Button type="submit" variant="outline" className="rounded-full shrink-0 font-display border-2 border-slate-900">Cari</Button>
+              {appliedQuery && (
+                <Button type="button" variant="ghost" className="rounded-full shrink-0"
+                  onClick={() => { setQuery(""); setAppliedQuery(""); queryRef.current = ""; limitRef.current = 50; setMsgLimit(50); loadMsgs(); }}>
+                  ✕
+                </Button>
+              )}
+            </form>
             {msgs.length === 0 && <p className="text-sm text-slate-400">Belum ada. Coba kirim sesuatu ke nomor ini! 👆</p>}
             {msgs.map((m) => (
               <div key={m.id} className="py-2 border-b last:border-0 text-sm group">
@@ -233,6 +280,17 @@ export default function InstanceDetail() {
                 </p>
               </div>
             ))}
+            <div className="flex items-center gap-2 mt-3">
+              <p className="text-xs text-slate-400">
+                Menampilkan {msgs.length} pesan{appliedQuery ? ` untuk “${appliedQuery}”` : " terbaru"}
+              </p>
+              {msgs.length >= msgLimit && (
+                <Button type="button" variant="outline" size="sm" onClick={moreMsgs}
+                  className="ml-auto rounded-full font-display border-2 border-slate-900">
+                  Muat lebih ⬇️
+                </Button>
+              )}
+            </div>
           </CardContent>
         </Card>
 
