@@ -10,6 +10,7 @@ const GET_OK = new Set([
   "instances/:id/session/qr",
   "instances/:id/session/qr.svg",
   "instances/:id/messages",
+  "instances/:id/messages/export",
   "instances/:id/users",
   "instances/:id/webhook",
   "instances/:id/identity/mappings",
@@ -18,6 +19,7 @@ const POST_OK = new Set([
   "registrations",
   "instances/:id/session/pair",
   "instances/:id/messages/send",
+  "instances/:id/messages/:row/resend",
   "instances/:id/webhook",
   "instances/:id/users/register",
   "instances/:id/identity/mapping",
@@ -29,19 +31,18 @@ function allowed(method: string, parts: string[]): { id?: string } | null {
   const key = parts
     .map((seg, i) => (i === 1 && parts[0] === "instances" ? ":id" : seg))
     .join("/");
-  const phoneSwap = parts
-    .map((seg, i) =>
-      i === 1 && parts[0] === "instances"
-        ? ":id"
-        : i === 3 && parts[0] === "instances" && parts[2] === "users"
-          ? ":phone"
-          : seg
-    )
+  const paramSwap = parts
+    .map((seg, i) => {
+      if (i === 1 && parts[0] === "instances") return ":id";
+      if (i === 3 && parts[0] === "instances" && parts[2] === "users") return ":phone";
+      if (i === 3 && parts[0] === "instances" && parts[2] === "messages") return ":row";
+      return seg;
+    })
     .join("/");
   const set =
     method === "GET" ? GET_OK : method === "POST" ? POST_OK : method === "DELETE" ? DELETE_OK : null;
   if (!set) return null;
-  if (set.has(key) || set.has(phoneSwap)) {
+  if (set.has(key) || set.has(paramSwap)) {
     return parts[0] === "instances" ? { id: parts[1] } : {};
   }
   return null;

@@ -123,6 +123,18 @@ export default function InstanceDetail() {
     }
   }
 
+  async function resendMsg(rowId: number) {
+    setOut("");
+    try {
+      const r = await api(`/api/w/instances/${id}/messages/${rowId}/resend`, {
+        method: "POST",
+      });
+      setOut(`↻ Dikirim ulang: ${r.message_id}`);
+    } catch (e) {
+      setOut(e instanceof Error ? e.message : "resend failed");
+    }
+  }
+
   async function saveWebhook(e: React.FormEvent) {
     e.preventDefault();
     try {
@@ -246,7 +258,15 @@ export default function InstanceDetail() {
         </div>
 
         <Card className="rounded-3xl border-2 shadow-[6px_6px_0_#1e1b4b] rotate-[0.5deg] hover:rotate-0 transition-transform">
-          <CardHeader><CardTitle className="font-display">📨 Pesan terbaru</CardTitle></CardHeader>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <CardTitle className="font-display">📨 Pesan terbaru</CardTitle>
+              <a href={`/api/w/instances/${id}/messages/export`}
+                className="ml-auto text-xs font-display text-violet-600 border-2 border-slate-900 rounded-full px-3 py-1 hover:bg-violet-50 transition-colors">
+                ⬇️ Unduh CSV
+              </a>
+            </div>
+          </CardHeader>
           <CardContent>
             <form onSubmit={searchMsgs} className="flex gap-2 mb-2">
               <Input value={query} onChange={(e) => setQuery(e.target.value)}
@@ -275,6 +295,13 @@ export default function InstanceDetail() {
                   className="ml-2 text-xs font-display text-violet-600 sm:opacity-0 sm:group-hover:opacity-100 hover:text-violet-400 transition-opacity">
                   ↩️ Balas
                 </button>
+                {m.text && (
+                  <button type="button" title="Kirim ulang pesan ini"
+                    onClick={() => resendMsg(m.id)}
+                    className="ml-1 text-xs font-display text-slate-400 sm:opacity-0 sm:group-hover:opacity-100 hover:text-amber-600 transition-opacity">
+                    ↻
+                  </button>
+                )}
                 <p className="mt-1">
                   {m.text || <span className="italic text-slate-400">[{m.media_kind || "non-text"}]</span>}
                 </p>
