@@ -94,6 +94,38 @@ export default function Home() {
         </div>
       </section>
 
+      {/* use cases */}
+      <section className="max-w-5xl mx-auto px-4 pb-14">
+        <h2 className="font-display font-bold text-3xl sm:text-4xl mb-2 text-center">
+          Buat apa sih? <span className="font-hand font-semibold text-fuchsia-600">banyak!</span>
+        </h2>
+        <p className="text-center text-sm text-slate-500 mb-8 max-w-xl mx-auto">
+          Satu mesin kirim pesan otomatis, banyak wajahnya. Semua lewat API yang sama.
+        </p>
+        <div className="grid sm:grid-cols-3 gap-5">
+          {[
+            ["🔔", "Notifikasi order", "Order lunas → customer terima WA otomatis.", "bg-sky-200", "-rotate-1"],
+            ["🤖", "Chatbot auto-balas", "Pesan masuk ke webhook, bot jawab via API.", "bg-amber-200", "rotate-1"],
+            ["📟", "Alert monitoring", "Server down / cron gagal → WA admin langsung.", "bg-pink-200", "-rotate-1"],
+            ["🔑", "Kode OTP", "Volume kecil–menengah oke. Kritikal besar? Pakai jalur resmi.", "bg-violet-200", "rotate-1"],
+            ["📢", "Broadcast komunitas", "Info RT, sekolah, arisan — via contacts, wajar.", "bg-emerald-200", "-rotate-1"],
+            ["🧾", "Pencatatan otomatis", "Laporan & absensi masuk, ke-parse rapi.", "bg-orange-200", "rotate-1"],
+          ].map(([emoji, title, desc, bg, tilt]) => (
+            <div
+              key={title}
+              className={`${bg} ${tilt} border-2 border-slate-900 rounded-2xl p-5 shadow-[6px_6px_0_#1e1b4b] hover:rotate-0 hover:-translate-y-1 transition-transform`}
+            >
+              <div className="text-3xl mb-2">{emoji}</div>
+              <h3 className="font-display font-semibold text-xl mb-1">{title}</h3>
+              <p className="text-sm text-slate-700">{desc}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-xs text-slate-400 mt-6 max-w-xl mx-auto">
+          Jujur-jujuran: Wagaza itu gateway tidak resmi — pakai nomor khusus, jangan nomor utamamu. 🤝
+        </p>
+      </section>
+
       <section className="max-w-5xl mx-auto px-4 pb-14">
         <div className="border-2 border-slate-900 rounded-2xl bg-slate-900 text-white p-6 sm:p-8 shadow-[8px_8px_0_#c026d3]">
           <div className="flex flex-wrap gap-x-8 gap-y-3 font-display text-lg">
